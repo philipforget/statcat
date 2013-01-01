@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 
+from .instrument import Instrument
 
 
 class Stat(models.Model):
@@ -13,8 +14,11 @@ class Stat(models.Model):
     timestamps gives us an idea on the latency which might exist in the system,
     intended or not.
     """
-    instrument = models.ForeignKey('statcat.Instrument')
+    instrument = models.ForeignKey(Instrument)
     # When this measurement was taken, may or may not be sent by instrument
     datestamp = models.DateTimeField(default=datetime.datetime.now, blank=True)
     # When we created this entry in the DB
-    created = models.DateTimeField(auto_add_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        app_label = 'statcat'
